@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Disclaimer — Preslo</title>
+<title>Log In or Sign Up — Preslo</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2220%22 font-size=%2220%22>📄</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,36 +26,47 @@
   </header>
 
   <div class="body-shell">
-    <main class="main-content full-width">
+    <main class="main-content full-width auth-page-main">
 
-      <a href="index.html" class="back-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        <span>Back</span>
-      </a>
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-tab="login">Log In</button>
+          <button class="auth-tab" data-tab="signup">Sign Up</button>
+        </div>
 
-      <h1 class="page-title">Disclaimer</h1>
-      <p class="legal-updated">Last updated: October 1, 2026</p>
+        <form class="auth-form" id="loginForm">
+          <label>Email
+            <input type="email" id="loginEmail" required />
+          </label>
+          <label>Password
+            <input type="password" id="loginPassword" required minlength="6" />
+          </label>
+          <div class="auth-error" id="loginError" style="display:none;"></div>
+          <button type="submit" class="btn" id="loginSubmit">Log In</button>
+        </form>
 
-      <div class="legal-body">
-        <p>The tools on Preslo are offered for general use, free of charge. This page lays out a few things worth knowing before you rely on them for something important.</p>
+        <form class="auth-form" id="signupForm" style="display:none;">
+          <div class="avatar-upload-row">
+            <div class="avatar-preview" id="avatarPreview">+</div>
+            <div>
+              <button type="button" class="btn-ghost avatar-upload-btn" id="avatarUploadBtn">Add photo</button>
+              <div class="avatar-upload-hint">Optional</div>
+            </div>
+            <input type="file" id="avatarFileInput" accept="image/png,image/jpeg" style="display:none;" />
+          </div>
 
-        <h2>Results may vary</h2>
-        <p>Compression, conversion, and merging results depend heavily on the structure and content of the file you upload. A heavily formatted document, a scanned PDF, and a text-only PDF can all compress differently. We'd suggest reviewing the output before using it somewhere that matters — a job application, a legal submission, or anything similarly important.</p>
-
-        <h2>No professional advice</h2>
-        <p>Nothing on this site constitutes legal, financial, or professional advice. If you're working with sensitive or regulated documents, use your own judgment about whether a browser-based tool is appropriate for that use case.</p>
-
-        <h2>Third-party content</h2>
-        <p>Comments and reviews shown on Preslo reflect the views of the individuals who posted them, not the views of Preslo itself. We don't verify the accuracy of user-submitted comments.</p>
-
-        <h2>External links</h2>
-        <p>Any links to external sites (including our social media pages) are provided for convenience. We aren't responsible for the content or practices of external websites.</p>
-
-        <h2>Availability</h2>
-        <p>We aim to keep Preslo online and working reliably, but we don't guarantee the site will be available without interruption at all times.</p>
-
-        <h2>Contact</h2>
-        <p>Questions about this disclaimer can be sent to <a href="mailto:rmabdul534@gmail.com">rmabdul534@gmail.com</a>.</p>
+          <label>Name
+            <input type="text" id="signupName" required />
+          </label>
+          <label>Email
+            <input type="email" id="signupEmail" required />
+          </label>
+          <label>Password
+            <input type="password" id="signupPassword" required minlength="6" />
+          </label>
+          <div class="auth-error" id="signupError" style="display:none;"></div>
+          <button type="submit" class="btn" id="signupSubmit">Sign Up</button>
+        </form>
       </div>
 
     </main>
@@ -93,5 +104,6 @@
 <script src="ui.js"></script>
 <script type="module" src="firebase-config.js"></script>
 <script type="module" src="auth.js"></script>
+<script type="module" src="auth-page.js"></script>
 </body>
 </html>
