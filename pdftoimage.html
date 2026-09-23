@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>PDF to Image — Convert PDF pages to JPG/PNG | Preslo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2220%22 font-size=%2220%22>📄</text></svg>">
+<meta name="description" content="Convert PDF pages into JPG or PNG images, in your browser. No upload, no signup, no limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <a href="index.html" class="logo">Pres<span>lo</span></a>
+    </div>
+    <div class="topbar-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <button class="btn-ghost" id="loginBtn">Log In</button>
+      <button class="btn-solid" id="signupBtn">Sign Up</button>
+    </div>
+  </header>
+
+  <div class="body-shell">
+    <aside class="sidebar" id="sidebar">
+      <nav class="side-nav">
+        <a class="side-link" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+          <span>Compress PDF</span>
+        </a>
+        <a class="side-link" href="merge.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 4h8v6l-3 2 3 2v6H8v-6l3-2-3-2V4z"/></svg>
+          <span>Merge PDF</span>
+        </a>
+        <a class="side-link" href="split.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h7v7H4V4zM13 13h7v7h-7v-7z"/></svg>
+          <span>Split PDF</span>
+        </a>
+        <a class="side-link active" href="pdftoimage.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="M21 15l-5-5-9 9"/></svg>
+          <span>PDF to Image</span>
+        </a>
+                <a class="side-link" href="imagecompress.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 21V3M16 21V3"/></svg>
+          <span>Image Compressor</span>
+        </a>
+                <a class="side-link" href="qrgenerator.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>QR Generator</span>
+        </a>
+      </nav>
+    </aside>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <main class="main-content">
+
+      <section class="hero">
+        <h1>Turn PDF pages into images.</h1>
+        <p>Upload a PDF and download each page as a JPG or PNG. Nothing leaves your device.</p>
+      </section>
+
+      <section class="panel" id="panel">
+        <div id="filebar" class="filebar" style="display:none;">
+          <div class="name mono" id="fileName"></div>
+          <button class="reset" id="resetBtn">choose a different file</button>
+        </div>
+
+        <button class="dropzone" id="dropzone">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+          <div class="dz-title">Drop a PDF here, or click to browse</div>
+          <div class="dz-sub">One file at a time · processed on your device</div>
+        </button>
+        <input type="file" id="fileInput" accept="application/pdf" />
+
+        <div id="optionsRow" class="levels" style="display:none;">
+          <div class="level active" data-format="jpeg">
+            <div class="lv-name">JPG</div>
+            <div class="lv-desc">Smaller files, best for photos</div>
+          </div>
+          <div class="level" data-format="png">
+            <div class="lv-name">PNG</div>
+            <div class="lv-desc">Larger files, sharper text</div>
+          </div>
+        </div>
+
+        <div id="actionRow" class="action-row" style="display:none;">
+          <button class="btn" id="convertBtn">Convert to Images</button>
+        </div>
+
+        <div id="progressWrap" class="progress-wrap" style="display:none;">
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+          <div class="progress-label" id="progressLabel">Converting pages…</div>
+        </div>
+
+        <div id="result" class="result" style="display:none;">
+          <div class="image-grid" id="imageGrid"></div>
+          <button class="btn" id="downloadAllBtn" style="margin-top:16px;">Download All as ZIP</button>
+          <button class="btn secondary" id="anotherBtn" style="margin-top:10px;">Start over</button>
+        </div>
+
+        <div id="errorBox" class="error-box" style="display:none;"></div>
+      </section>
+
+      <div class="privacy-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 9.5-4-1.3-7-5-7-9.5V6l7-3z"/></svg>
+        <div>Your file is converted entirely inside this browser tab using WebAssembly — it's never uploaded to a server.</div>
+      </div>
+
+      <div class="how">
+        <div>
+          <h3>Every page, separately</h3>
+          <p>Each PDF page becomes its own image file, ready to download individually or all at once.</p>
+        </div>
+        <div>
+          <h3>JPG or PNG</h3>
+          <p>Pick JPG for smaller files, or PNG when you need the sharpest possible text and lines.</p>
+        </div>
+        <div>
+          <h3>No limits</h3>
+          <p>Convert as many pages as you need, no account or page caps.</p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="logo">Pres<span>lo</span></div>
+        <p>Simple, private tools that run entirely on your device.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Contact Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Disclaimer</a>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <a href="#">Facebook</a>
+        <a href="#">Instagram</a>
+        <a href="#">YouTube</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Preslo. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<div class="modal-overlay" id="infoOverlay">
+  <div class="modal info-modal" role="dialog" aria-modal="true">
+    <button class="modal-close" id="infoClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="modal-icon" id="infoIcon">🛠️</div>
+    <h2 id="infoTitle">This tool is under build</h2>
+    <p id="infoBody">We're working on it — check back soon.</p>
+    <button class="btn" id="infoOk">Got it</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="ui.js"></script>
+<script src="pdftoimage.js"></script>
+</body>
+</html>

@@ -3,12 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Preslo — Compress PDF in your browser</title>
+<title>Split PDF — Extract or separate PDF pages | Preslo</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2220%22 font-size=%2220%22>📄</text></svg>">
-<meta name="description" content="Compress PDF files instantly in your browser. No upload, no signup, no limits — your files never leave your device.">
-<meta property="og:title" content="Preslo — Compress PDF in your browser">
-<meta property="og:description" content="Drop a PDF, pick a compression level, download the result. 100% private, runs entirely on your device.">
-<meta property="og:type" content="website">
+<meta name="description" content="Split a PDF into separate files by page range, in your browser. No upload, no signup, no limits.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -23,7 +20,7 @@
       <button class="hamburger" id="hamburger" aria-label="Open menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
-      <div class="logo">Pres<span>lo</span></div>
+      <a href="index.html" class="logo">Pres<span>lo</span></a>
     </div>
     <div class="topbar-right">
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
@@ -37,15 +34,15 @@
   <div class="body-shell">
     <aside class="sidebar" id="sidebar">
       <nav class="side-nav">
-        <a class="side-link active" data-tool="compress">
+        <a class="side-link" href="index.html">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
           <span>Compress PDF</span>
         </a>
-                <a class="side-link" href="merge.html">
+        <a class="side-link" href="merge.html">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 4h8v6l-3 2 3 2v6H8v-6l3-2-3-2V4z"/></svg>
           <span>Merge PDF</span>
         </a>
-                <a class="side-link" href="split.html">
+        <a class="side-link active" href="split.html">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h7v7H4V4zM13 13h7v7h-7v-7z"/></svg>
           <span>Split PDF</span>
         </a>
@@ -68,8 +65,8 @@
     <main class="main-content">
 
       <section class="hero">
-        <h1>Shrink your PDF, not its clarity.</h1>
-        <p>Drop a file in, pick how much to compress, and download the result. Nothing you upload ever leaves this browser tab.</p>
+        <h1>Split a PDF into separate files.</h1>
+        <p>Upload a PDF, choose a page range, and get just the pages you need as a new file. Nothing leaves your device.</p>
       </section>
 
       <section class="panel" id="panel">
@@ -85,45 +82,37 @@
         </button>
         <input type="file" id="fileInput" accept="application/pdf" />
 
-        <div id="levels" class="levels" style="display:none;">
-          <div class="level" data-level="low">
-            <div class="lv-name">Light</div>
-            <div class="lv-desc">Best quality, smaller savings</div>
-          </div>
-          <div class="level active" data-level="recommended">
-            <div class="lv-name">Recommended</div>
-            <div class="lv-desc">Balanced size and clarity</div>
-          </div>
-          <div class="level" data-level="high">
-            <div class="lv-name">Strong</div>
-            <div class="lv-desc">Smallest file, softer images</div>
+        <div id="rangeRow" class="range-row" style="display:none;">
+          <div class="range-info mono" id="rangeInfo">— pages</div>
+          <div class="range-fields">
+            <label>From
+              <input type="number" id="fromPage" min="1" value="1" />
+            </label>
+            <label>To
+              <input type="number" id="toPage" min="1" value="1" />
+            </label>
           </div>
         </div>
 
         <div id="actionRow" class="action-row" style="display:none;">
-          <button class="btn" id="compressBtn">Compress PDF</button>
+          <button class="btn" id="splitBtn">Extract Pages</button>
         </div>
 
         <div id="progressWrap" class="progress-wrap" style="display:none;">
           <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-          <div class="progress-label" id="progressLabel">Reading pages…</div>
+          <div class="progress-label" id="progressLabel">Extracting pages…</div>
         </div>
 
         <div id="result" class="result" style="display:none;">
           <div class="size-compare">
-            <div class="size-box before">
-              <div class="size-label">original</div>
-              <div class="size-val mono" id="sizeBefore">—</div>
-            </div>
-            <div class="arrow">→</div>
             <div class="size-box after">
-              <div class="size-label">compressed</div>
+              <div class="size-label">new file</div>
               <div class="size-val mono" id="sizeAfter">—</div>
             </div>
-            <div class="savings-pill" id="savingsPill">—</div>
+            <div class="savings-pill" id="pageCountPill">—</div>
           </div>
-          <button class="btn" id="downloadBtn">Download compressed PDF</button>
-          <button class="btn secondary" id="anotherBtn" style="margin-top:10px;">Compress another file</button>
+          <button class="btn" id="downloadBtn">Download extracted PDF</button>
+          <button class="btn secondary" id="anotherBtn" style="margin-top:10px;">Start over</button>
         </div>
 
         <div id="errorBox" class="error-box" style="display:none;"></div>
@@ -131,73 +120,23 @@
 
       <div class="privacy-note">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 9.5-4-1.3-7-5-7-9.5V6l7-3z"/></svg>
-        <div>Your file is compressed entirely inside this browser tab using WebAssembly — it's never uploaded to a server. Close the tab and the file is gone.</div>
+        <div>Your file is processed entirely inside this browser tab using WebAssembly — it's never uploaded to a server.</div>
       </div>
 
       <div class="how">
         <div>
-          <h3>Works best on</h3>
-          <p>Scanned documents and image-heavy PDFs, where the savings are largest.</p>
+          <h3>Pick a range</h3>
+          <p>Choose any start and end page — you get a single new PDF with just that range.</p>
         </div>
         <div>
-          <h3>The trade-off</h3>
-          <p>Compressed pages become images, so text can no longer be selected or searched afterward.</p>
+          <h3>Keeps quality</h3>
+          <p>Splitting doesn't recompress anything — pages stay exactly as they were in the original.</p>
         </div>
         <div>
           <h3>No limits</h3>
-          <p>No account, no page caps, no watermark. Compress as many files as you need.</p>
+          <p>Split as many files as you need, no account or page caps.</p>
         </div>
       </div>
-
-      <section class="reviews-summary">
-        <div class="rs-score mono">4.2</div>
-        <div class="rs-stars" id="rsStars"></div>
-        <div class="rs-count">based on 1,248 reviews</div>
-      </section>
-
-      <section class="comments-section">
-        <h2>What people are saying</h2>
-
-        <div class="comment-form">
-          <div class="comment-avatar" id="formAvatar">Y</div>
-          <div class="comment-form-fields">
-            <input type="text" id="commentName" placeholder="Your name" />
-            <textarea id="commentText" placeholder="Write a comment…" rows="2"></textarea>
-            <button class="btn" id="postCommentBtn" style="width:auto;">Post Comment</button>
-          </div>
-        </div>
-
-        <div class="comments-list" id="commentsList"></div>
-                <div class="comments-list" id="commentsList"></div>
-        <a href="comments.html" class="view-all-btn">More Comments</a>
-      </section>
-
-      <section class="faq">
-        <h2>Frequently asked questions</h2>
-        <div class="faq-item">
-          <h3>Is my file really not uploaded anywhere?</h3>
-          <p>Correct — everything happens inside your browser tab using WebAssembly. No server ever sees your file.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Why did my PDF's text become unselectable?</h3>
-          <p>Compression rasterizes each page into an image to shrink file size. This trims size a lot but removes selectable text.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Is there a file size limit?</h3>
-          <p>No hard limit — very large files just take longer to process since your device is doing the work.</p>
-        </div>
-      </section>
-
-      <section class="newsletter">
-        <div>
-          <h3>Get notified about new tools</h3>
-          <p>One short email when a new tool launches. No spam.</p>
-        </div>
-        <form id="newsletterForm" class="newsletter-form">
-          <input type="email" placeholder="you@email.com" required />
-          <button type="submit" class="btn">Notify me</button>
-        </form>
-      </section>
 
     </main>
   </div>
@@ -231,31 +170,6 @@
 
 </div>
 
-<div class="cookie-banner" id="cookieBanner">
-  <span>We use cookies to improve your experience.</span>
-  <button class="btn-solid" id="cookieAccept">Got it</button>
-</div>
-
-<!-- Welcome modal -->
-<div class="modal-overlay" id="welcomeOverlay">
-  <div class="modal welcome-modal" role="dialog" aria-modal="true">
-    <button class="modal-close" id="welcomeClose" aria-label="Close">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
-    </button>
-    <div class="modal-icon">📄</div>
-    <h2>Welcome to Preslo</h2>
-    <p>Compress PDFs privately, right in your browser — no uploads, no waiting.</p>
-    <ul class="benefit-list">
-      <li>Save your compression history across visits</li>
-      <li>Faster access to new tools as they launch</li>
-      <li>Priority support when something goes wrong</li>
-    </ul>
-    <button class="btn" id="welcomeSignup">Sign Up — it's free</button>
-    <button class="btn secondary" id="welcomeContinue">Continue without an account</button>
-  </div>
-</div>
-
-<!-- Generic info modal (tool-soon, login, signup, newsletter) -->
 <div class="modal-overlay" id="infoOverlay">
   <div class="modal info-modal" role="dialog" aria-modal="true">
     <button class="modal-close" id="infoClose" aria-label="Close">
@@ -269,9 +183,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="comments.js"></script>
 <script src="ui.js"></script>
-<script src="script.js"></script>
+<script src="split.js"></script>
 </body>
 </html>
