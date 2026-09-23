@@ -686,3 +686,52 @@ input[type="file"] { display: none; }
   margin-bottom: 16px;
 }
 .qr-result .btn { max-width: 240px; margin: 0 auto; }
+
+
+.full-width { max-width: 720px; }
+.legal-updated { font-size: 13px; color: var(--ink-faint); margin: -12px 0 30px; }
+.legal-body h2 { font-size: 17px; margin: 30px 0 10px; }
+.legal-body p { font-size: 14.5px; line-height: 1.7; color: var(--ink-soft); margin: 0 0 14px; }
+.legal-body a { color: var(--accent); text-decoration: underline; }
+
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 24px 0 32px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.contact-row { display: flex; align-items: center; gap: 14px; }
+.contact-row svg { width: 20px; height: 20px; color: var(--accent); flex-shrink: 0; }
+.contact-label { font-size: 12px; color: var(--ink-faint); margin-bottom: 2px; }
+.contact-row a { color: var(--ink); font-weight: 600; }
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 50px;
+}
+.contact-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+.contact-form input,
+.contact-form textarea {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 11px 13px;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+}
+.contact-form .btn { width: auto; align-self: flex-start; padding: 12px 24px; margin-top: 4px; }

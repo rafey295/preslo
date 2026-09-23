@@ -61,15 +61,22 @@ document.addEventListener('DOMContentLoaded', function () {
   var welcomeClose = document.getElementById('welcomeClose');
   var welcomeSignup = document.getElementById('welcomeSignup');
   var welcomeContinue = document.getElementById('welcomeContinue');
-  wireModalClose(welcomeOverlay, welcomeClose);
+    if (welcomeOverlay && welcomeClose && welcomeSignup && welcomeContinue) {
+    wireModalClose(welcomeOverlay, welcomeClose);
 
-  var seenWelcome = null;
-  try { seenWelcome = localStorage.getItem('preslo-seen-welcome'); } catch (e) {}
-  if (!seenWelcome) {
-    setTimeout(function () { openModal(welcomeOverlay); }, 500);
-    try { localStorage.setItem('preslo-seen-welcome', '1'); } catch (e) {}
+    var seenWelcome = null;
+    try { seenWelcome = localStorage.getItem('preslo-seen-welcome'); } catch (e) {}
+    if (!seenWelcome) {
+      setTimeout(function () { openModal(welcomeOverlay); }, 500);
+      try { localStorage.setItem('preslo-seen-welcome', '1'); } catch (e) {}
+    }
+    welcomeContinue.addEventListener('click', function () { closeModal(welcomeOverlay); });
+
+    welcomeSignup.addEventListener('click', function () {
+      closeModal(welcomeOverlay);
+      showInfo('✨', 'Almost there', 'Accounts will be enabled once Preslo is fully hosted — for now, jump straight into compressing files below.');
+    });
   }
-  welcomeContinue.addEventListener('click', function () { closeModal(welcomeOverlay); });
 
   // ---------- Generic info modal ----------
   var infoOverlay = document.getElementById('infoOverlay');
@@ -88,10 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
     openModal(infoOverlay);
   }
 
-  welcomeSignup.addEventListener('click', function () {
-    closeModal(welcomeOverlay);
-    showInfo('✨', 'Almost there', 'Accounts will be enabled once Preslo is fully hosted — for now, jump straight into compressing files below.');
-  });
+
 
   // Login / Sign up buttons
   var loginBtn = document.getElementById('loginBtn');
