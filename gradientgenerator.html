@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>CSS Gradient Generator — Preslo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2220%22 font-size=%2220%22>📄</text></svg>">
+<meta name="description" content="Build a linear or radial CSS gradient visually and copy the code. Free, no signup.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <a href="index.html" class="logo">Pres<span>lo</span></a>
+    </div>
+    <div class="topbar-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <button class="btn-ghost" id="loginBtn">Log In</button>
+      <button class="btn-solid" id="signupBtn">Sign Up</button>
+    </div>
+  </header>
+
+  <div class="body-shell">
+    <aside class="sidebar" id="sidebar">
+      <nav class="side-nav" id="sideNav"></nav>
+    </aside>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <main class="main-content">
+
+      <section class="hero">
+        <h1>CSS gradient generator.</h1>
+        <p>Build a linear or radial gradient visually and copy the ready-to-use CSS.</p>
+      </section>
+
+      <section class="panel calc-panel">
+        <div class="gradient-preview" id="gradientPreview"></div>
+
+        <div class="unit-toggle" id="typeToggle">
+          <button class="unit-btn active" data-type="linear">Linear</button>
+          <button class="unit-btn" data-type="radial">Radial</button>
+        </div>
+
+        <div id="angleField" class="calc-field">
+          <label>Angle: <span id="angleValue">90</span>°</label>
+          <input type="range" id="angleSlider" min="0" max="360" value="90" />
+        </div>
+
+        <div class="gradient-colors" id="gradientColors"></div>
+        <button class="btn secondary" id="addColorBtn">+ Add Color</button>
+
+        <div class="lorem-output-wrap" style="margin-top:20px;">
+          <textarea id="cssOutput" rows="3" readonly></textarea>
+          <button class="btn" id="copyBtn" style="margin-top:10px;">Copy CSS</button>
+        </div>
+      </section>
+
+      <div class="how">
+        <div>
+          <h3>Linear or radial</h3>
+          <p>Switch between straight-line and circular gradients.</p>
+        </div>
+        <div>
+          <h3>Unlimited color stops</h3>
+          <p>Add as many colors as you like to build the exact gradient you need.</p>
+        </div>
+        <div>
+          <h3>Ready-to-paste CSS</h3>
+          <p>Copy the finished background CSS with one click.</p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="logo">Pres<span>lo</span></div>
+        <p>Simple, private tools that run entirely on your device.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="disclaimer.html">Disclaimer</a>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <a href="#">Facebook</a>
+        <a href="#">Instagram</a>
+        <a href="#">YouTube</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Preslo. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<script src="ui.js"></script>
+<script type="module" src="firebase-config.js"></script>
+<script type="module" src="auth.js"></script>
+<script src="gradientgenerator.js"></script>
+</body>
+</html>
