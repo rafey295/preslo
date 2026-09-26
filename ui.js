@@ -172,3 +172,17 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.back-link').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (window.history.length > 1 && document.referrer.indexOf(window.location.origin) === 0) {
+        window.history.back();
+      } else {
+        window.location.href = link.getAttribute('href') || 'index.html';
+      }
+    });
+  });
+});
