@@ -1866,3 +1866,6 @@ input[type="file"] { display: none; }
 @media (max-width: 460px) {
   .home-card-grid { grid-template-columns: 1fr; }
 }
+
+.social-soon { display: flex !important; align-items: center; justify-content: space-between; opacity: 0.55; cursor: default; pointer-events: none; }
+.social-soon span { font-size: 10px; border: 1px solid var(--border); border-radius: 999px; padding: 2px 7px; }
