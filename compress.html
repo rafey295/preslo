@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Preslo — Compress PDF in your browser</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2220%22 font-size=%2220%22>📄</text></svg>">
+<meta name="description" content="Compress PDF files instantly in your browser. No upload, no signup, no limits — your files never leave your device.">
+<meta property="og:title" content="Preslo — Compress PDF in your browser">
+<meta property="og:description" content="Drop a PDF, pick a compression level, download the result. 100% private, runs entirely on your device.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+            <a href="index.html" class="logo">Pres<span>lo</span></a>
+    </div>
+    <div class="topbar-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <button class="btn-ghost" id="loginBtn">Log In</button>
+      <button class="btn-solid" id="signupBtn">Sign Up</button>
+    </div>
+  </header>
+
+  <div class="body-shell">
+    <aside class="sidebar" id="sidebar">
+      <nav class="side-nav" id="sideNav"></nav>
+    </aside>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <main class="main-content">
+
+      <section class="hero">
+        <h1>Shrink your PDF, not its clarity.</h1>
+        <p>Drop a file in, pick how much to compress, and download the result. Nothing you upload ever leaves this browser tab.</p>
+      </section>
+
+      <section class="panel" id="panel">
+        <div id="filebar" class="filebar" style="display:none;">
+          <div class="name mono" id="fileName"></div>
+          <button class="reset" id="resetBtn">choose a different file</button>
+        </div>
+
+        <button class="dropzone" id="dropzone">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+          <div class="dz-title">Drop a PDF here, or click to browse</div>
+          <div class="dz-sub">One file at a time · processed on your device</div>
+        </button>
+        <input type="file" id="fileInput" accept="application/pdf" />
+
+        <div id="levels" class="levels" style="display:none;">
+          <div class="level" data-level="low">
+            <div class="lv-name">Light</div>
+            <div class="lv-desc">Best quality, smaller savings</div>
+          </div>
+          <div class="level active" data-level="recommended">
+            <div class="lv-name">Recommended</div>
+            <div class="lv-desc">Balanced size and clarity</div>
+          </div>
+          <div class="level" data-level="high">
+            <div class="lv-name">Strong</div>
+            <div class="lv-desc">Smallest file, softer images</div>
+          </div>
+        </div>
+
+        <div id="actionRow" class="action-row" style="display:none;">
+          <button class="btn" id="compressBtn">Compress PDF</button>
+        </div>
+
+        <div id="progressWrap" class="progress-wrap" style="display:none;">
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+          <div class="progress-label" id="progressLabel">Reading pages…</div>
+        </div>
+
+        <div id="result" class="result" style="display:none;">
+          <div class="size-compare">
+            <div class="size-box before">
+              <div class="size-label">original</div>
+              <div class="size-val mono" id="sizeBefore">—</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="size-box after">
+              <div class="size-label">compressed</div>
+              <div class="size-val mono" id="sizeAfter">—</div>
+            </div>
+            <div class="savings-pill" id="savingsPill">—</div>
+          </div>
+          <button class="btn" id="downloadBtn">Download compressed PDF</button>
+          <button class="btn secondary" id="anotherBtn" style="margin-top:10px;">Compress another file</button>
+        </div>
+
+        <div id="errorBox" class="error-box" style="display:none;"></div>
+      </section>
+
+      <div class="privacy-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 9.5-4-1.3-7-5-7-9.5V6l7-3z"/></svg>
+        <div>Your file is compressed entirely inside this browser tab using WebAssembly — it's never uploaded to a server. Close the tab and the file is gone.</div>
+      </div>
+
+      <div class="how">
+        <div>
+          <h3>Works best on</h3>
+          <p>Scanned documents and image-heavy PDFs, where the savings are largest.</p>
+        </div>
+        <div>
+          <h3>The trade-off</h3>
+          <p>Compressed pages become images, so text can no longer be selected or searched afterward.</p>
+        </div>
+        <div>
+          <h3>No limits</h3>
+          <p>No account, no page caps, no watermark. Compress as many files as you need.</p>
+        </div>
+      </div>
+
+      <section class="reviews-summary">
+        <div class="rs-score mono">4.2</div>
+        <div class="rs-stars" id="rsStars"></div>
+        <div class="rs-count">based on 1,248 reviews</div>
+      </section>
+
+      <section class="comments-section">
+        <h2>What people are saying</h2>
+
+        <div class="comment-form">
+          <div class="comment-avatar" id="formAvatar">Y</div>
+          <div class="comment-form-fields">
+            <input type="text" id="commentName" placeholder="Your name" />
+            <textarea id="commentText" placeholder="Write a comment…" rows="2"></textarea>
+            <button class="btn" id="postCommentBtn" style="width:auto;">Post Comment</button>
+          </div>
+        </div>
+
+                <div class="comments-list" id="commentsList"></div>
+        <a href="comments.html" class="view-all-btn">More Comments</a>
+      </section>
+
+      <section class="faq">
+        <h2>Frequently asked questions</h2>
+        <div class="faq-item">
+          <h3>Is my file really not uploaded anywhere?</h3>
+          <p>Correct — everything happens inside your browser tab using WebAssembly. No server ever sees your file.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Why did my PDF's text become unselectable?</h3>
+          <p>Compression rasterizes each page into an image to shrink file size. This trims size a lot but removes selectable text.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Is there a file size limit?</h3>
+          <p>No hard limit — very large files just take longer to process since your device is doing the work.</p>
+        </div>
+      </section>
+
+      <section class="newsletter">
+        <div>
+          <h3>Get notified about new tools</h3>
+          <p>One short email when a new tool launches. No spam.</p>
+        </div>
+        <form id="newsletterForm" class="newsletter-form">
+          <input type="email" placeholder="you@email.com" required />
+          <button type="submit" class="btn">Notify me</button>
+        </form>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="logo">Pres<span>lo</span></div>
+        <p>Simple, private tools that run entirely on your device.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+                <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+                <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="disclaimer.html">Disclaimer</a>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <a href="#">Facebook</a>
+        <a href="#">Instagram</a>
+        <a href="#">YouTube</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Preslo. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<div class="cookie-banner" id="cookieBanner">
+  <span>We use cookies to improve your experience.</span>
+  <button class="btn-solid" id="cookieAccept">Got it</button>
+</div>
+
+<!-- Welcome modal -->
+<div class="modal-overlay" id="welcomeOverlay">
+  <div class="modal welcome-modal" role="dialog" aria-modal="true">
+    <button class="modal-close" id="welcomeClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="modal-icon">📄</div>
+    <h2>Welcome to Preslo</h2>
+    <p>Compress PDFs privately, right in your browser — no uploads, no waiting.</p>
+    <ul class="benefit-list">
+      <li>Save your compression history across visits</li>
+      <li>Faster access to new tools as they launch</li>
+      <li>Priority support when something goes wrong</li>
+    </ul>
+    <button class="btn" id="welcomeSignup">Sign Up — it's free</button>
+    <button class="btn secondary" id="welcomeContinue">Continue without an account</button>
+  </div>
+</div>
+
+<!-- Generic info modal (tool-soon, login, signup, newsletter) -->
+ 
+<div class="modal-overlay" id="infoOverlay">
+  <div class="modal info-modal" role="dialog" aria-modal="true">
+    <button class="modal-close" id="infoClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="modal-icon" id="infoIcon">🛠️</div>
+    <h2 id="infoTitle">This tool is under build</h2>
+    <p id="infoBody">We're working on it — check back soon.</p>
+    <button class="btn" id="infoOk">Got it</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="comments.js"></script>
+<script src="ui.js"></script>
+<script src="tools-data.js"></script>
+<script src="sidebar.js"></script>
+<script src="script.js"></script>
+<script type="module" src="firebase-config.js"></script>
+<script type="module" src="auth.js"></script>
+
+</body>
+</html>

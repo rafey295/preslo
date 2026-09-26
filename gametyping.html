@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Barcode Generator — Preslo</title>
+<title>Typing Speed Test — Preslo</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2220%22 font-size=%2220%22>📄</text></svg>">
-<meta name="description" content="Generate a barcode from any number or text, in your browser. Free, no signup.">
+<meta name="description" content="Test your typing speed (WPM) and accuracy, free in your browser. No download, no signup.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -40,48 +40,45 @@
     <main class="main-content">
 
       <section class="hero">
-        <h1>Barcode generator.</h1>
-        <p>Type any text or number and generate a scannable barcode, right in your browser.</p>
+        <h1>Typing speed test.</h1>
+        <p>Type the passage below as fast and accurately as you can. Your test starts on the first keystroke.</p>
       </section>
 
-      <section class="panel calc-panel">
-        <div class="calc-field">
-          <label>Text or number</label>
-          <input type="text" id="barcodeText" placeholder="e.g. 123456789012" value="123456789012" />
+      <section class="panel game-panel">
+        <div class="game-2048-header">
+          <div class="game-score-box">
+            <div class="game-score-label">WPM</div>
+            <div class="game-score-val mono" id="wpmVal">0</div>
+          </div>
+          <div class="game-score-box">
+            <div class="game-score-label">Accuracy</div>
+            <div class="game-score-val mono" id="accVal">100%</div>
+          </div>
+          <div class="game-score-box">
+            <div class="game-score-label">Time</div>
+            <div class="game-score-val mono" id="timeVal">60</div>
+          </div>
+          <button class="btn secondary" id="restartBtn">Restart</button>
         </div>
 
-        <div class="calc-field">
-          <label>Barcode format</label>
-          <select id="formatSelect">
-            <option value="CODE128">CODE128 (general purpose)</option>
-            <option value="EAN13">EAN-13 (retail, 12-13 digits)</option>
-            <option value="UPC">UPC-A (retail, 11-12 digits)</option>
-            <option value="CODE39">CODE39</option>
-          </select>
-        </div>
+        <div class="typing-passage" id="typingPassage"></div>
+        <textarea id="typingInput" class="typing-input" rows="4" placeholder="Start typing here…"></textarea>
 
-        <button class="btn" id="generateBtn">Generate Barcode</button>
-
-        <div id="barcodeResult" class="barcode-result" style="display:none;">
-          <svg id="barcodeSvg"></svg>
-          <button class="btn secondary" id="downloadBtn" style="margin-top:14px;">Download PNG</button>
-        </div>
-
-        <div id="errorBox" class="error-box" style="display:none;"></div>
+        <div class="game-2048-msg" id="typingMsg" style="display:none;"></div>
       </section>
 
       <div class="how">
         <div>
-          <h3>Multiple formats</h3>
-          <p>CODE128, EAN-13, UPC-A, and CODE39 — pick what fits your use case.</p>
+          <h3>60-second test</h3>
+          <p>Type as much of the passage as you can in 60 seconds — the timer starts on your first keypress.</p>
+        </div>
+        <div>
+          <h3>Live accuracy</h3>
+          <p>Wrong characters are highlighted as you type, and your accuracy updates in real time.</p>
         </div>
         <div>
           <h3>Fully private</h3>
-          <p>Generated entirely in your browser — nothing is sent anywhere.</p>
-        </div>
-        <div>
-          <h3>No limits</h3>
-          <p>Generate as many barcodes as you need, no account required.</p>
+          <p>Everything runs in your browser — no accounts, no tracking.</p>
         </div>
       </div>
 
@@ -117,10 +114,9 @@
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
 <script src="ui.js"></script>
 <script type="module" src="firebase-config.js"></script>
 <script type="module" src="auth.js"></script>
-<script src="barcodegenerator.js"></script>
+<script src="gametyping.js"></script>
 </body>
 </html>

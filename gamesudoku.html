@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Barcode Generator — Preslo</title>
+<title>Sudoku — Preslo</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2220%22 font-size=%2220%22>📄</text></svg>">
-<meta name="description" content="Generate a barcode from any number or text, in your browser. Free, no signup.">
+<meta name="description" content="Play Sudoku free in your browser. No download, no signup.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -40,48 +40,39 @@
     <main class="main-content">
 
       <section class="hero">
-        <h1>Barcode generator.</h1>
-        <p>Type any text or number and generate a scannable barcode, right in your browser.</p>
+        <h1>Sudoku</h1>
+        <p>Fill the grid so every row, column, and 3×3 box contains 1 through 9.</p>
       </section>
 
-      <section class="panel calc-panel">
-        <div class="calc-field">
-          <label>Text or number</label>
-          <input type="text" id="barcodeText" placeholder="e.g. 123456789012" value="123456789012" />
+      <section class="panel game-panel">
+        <div class="game-2048-header">
+          <div class="game-score-box">
+            <div class="game-score-label">Time</div>
+            <div class="game-score-val mono" id="timeVal">0:00</div>
+          </div>
+          <button class="btn secondary" id="checkBtn">Check</button>
+          <button class="btn secondary" id="newGameBtn">New Game</button>
         </div>
 
-        <div class="calc-field">
-          <label>Barcode format</label>
-          <select id="formatSelect">
-            <option value="CODE128">CODE128 (general purpose)</option>
-            <option value="EAN13">EAN-13 (retail, 12-13 digits)</option>
-            <option value="UPC">UPC-A (retail, 11-12 digits)</option>
-            <option value="CODE39">CODE39</option>
-          </select>
-        </div>
+        <div class="sudoku-board" id="sudokuBoard"></div>
 
-        <button class="btn" id="generateBtn">Generate Barcode</button>
+        <div class="sudoku-numpad" id="sudokuNumpad"></div>
 
-        <div id="barcodeResult" class="barcode-result" style="display:none;">
-          <svg id="barcodeSvg"></svg>
-          <button class="btn secondary" id="downloadBtn" style="margin-top:14px;">Download PNG</button>
-        </div>
-
-        <div id="errorBox" class="error-box" style="display:none;"></div>
+        <div class="game-2048-msg" id="sudokuMsg" style="display:none;"></div>
       </section>
 
       <div class="how">
         <div>
-          <h3>Multiple formats</h3>
-          <p>CODE128, EAN-13, UPC-A, and CODE39 — pick what fits your use case.</p>
+          <h3>How to play</h3>
+          <p>Tap an empty cell, then tap a number to fill it in. Fixed numbers can't be changed.</p>
+        </div>
+        <div>
+          <h3>Check anytime</h3>
+          <p>Tap Check to highlight any conflicting numbers currently on the board.</p>
         </div>
         <div>
           <h3>Fully private</h3>
-          <p>Generated entirely in your browser — nothing is sent anywhere.</p>
-        </div>
-        <div>
-          <h3>No limits</h3>
-          <p>Generate as many barcodes as you need, no account required.</p>
+          <p>Everything runs in your browser — no accounts, no tracking.</p>
         </div>
       </div>
 
@@ -117,10 +108,9 @@
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
 <script src="ui.js"></script>
 <script type="module" src="firebase-config.js"></script>
 <script type="module" src="auth.js"></script>
-<script src="barcodegenerator.js"></script>
+<script src="gamesudoku.js"></script>
 </body>
 </html>

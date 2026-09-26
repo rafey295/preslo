@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Barcode Generator — Preslo</title>
+<title>Hangman — Preslo</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2220%22 font-size=%2220%22>📄</text></svg>">
-<meta name="description" content="Generate a barcode from any number or text, in your browser. Free, no signup.">
+<meta name="description" content="Play Hangman free in your browser. Guess the word before running out of tries. No download, no signup.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -40,48 +40,52 @@
     <main class="main-content">
 
       <section class="hero">
-        <h1>Barcode generator.</h1>
-        <p>Type any text or number and generate a scannable barcode, right in your browser.</p>
+        <h1>Hangman</h1>
+        <p>Guess the hidden word one letter at a time before you run out of tries.</p>
       </section>
 
-      <section class="panel calc-panel">
-        <div class="calc-field">
-          <label>Text or number</label>
-          <input type="text" id="barcodeText" placeholder="e.g. 123456789012" value="123456789012" />
+      <section class="panel game-panel">
+        <div class="game-2048-header">
+          <div class="game-score-box">
+            <div class="game-score-label">Wrong</div>
+            <div class="game-score-val mono" id="wrongCount">0/6</div>
+          </div>
+          <button class="btn secondary" id="newGameBtn">New Word</button>
         </div>
 
-        <div class="calc-field">
-          <label>Barcode format</label>
-          <select id="formatSelect">
-            <option value="CODE128">CODE128 (general purpose)</option>
-            <option value="EAN13">EAN-13 (retail, 12-13 digits)</option>
-            <option value="UPC">UPC-A (retail, 11-12 digits)</option>
-            <option value="CODE39">CODE39</option>
-          </select>
-        </div>
+        <svg class="hangman-svg" id="hangmanSvg" viewBox="0 0 200 200">
+          <line x1="20" y1="180" x2="120" y2="180" stroke="currentColor" stroke-width="4"/>
+          <line x1="50" y1="180" x2="50" y2="20" stroke="currentColor" stroke-width="4"/>
+          <line x1="50" y1="20" x2="130" y2="20" stroke="currentColor" stroke-width="4"/>
+          <line x1="130" y1="20" x2="130" y2="40" stroke="currentColor" stroke-width="4"/>
+          <circle id="hm-head" cx="130" cy="55" r="15" stroke="currentColor" stroke-width="3" fill="none" style="display:none;"/>
+          <line id="hm-body" x1="130" y1="70" x2="130" y2="120" stroke="currentColor" stroke-width="3" style="display:none;"/>
+          <line id="hm-armL" x1="130" y1="85" x2="110" y2="105" stroke="currentColor" stroke-width="3" style="display:none;"/>
+          <line id="hm-armR" x1="130" y1="85" x2="150" y2="105" stroke="currentColor" stroke-width="3" style="display:none;"/>
+          <line id="hm-legL" x1="130" y1="120" x2="112" y2="150" stroke="currentColor" stroke-width="3" style="display:none;"/>
+          <line id="hm-legR" x1="130" y1="120" x2="148" y2="150" stroke="currentColor" stroke-width="3" style="display:none;"/>
+        </svg>
 
-        <button class="btn" id="generateBtn">Generate Barcode</button>
+        <div class="hangman-word mono" id="hangmanWord"></div>
+        <div class="hangman-hint" id="hangmanHint"></div>
 
-        <div id="barcodeResult" class="barcode-result" style="display:none;">
-          <svg id="barcodeSvg"></svg>
-          <button class="btn secondary" id="downloadBtn" style="margin-top:14px;">Download PNG</button>
-        </div>
+        <div class="hangman-keyboard" id="hangmanKeyboard"></div>
 
-        <div id="errorBox" class="error-box" style="display:none;"></div>
+        <div class="game-2048-msg" id="hangmanMsg" style="display:none;"></div>
       </section>
 
       <div class="how">
         <div>
-          <h3>Multiple formats</h3>
-          <p>CODE128, EAN-13, UPC-A, and CODE39 — pick what fits your use case.</p>
+          <h3>How to play</h3>
+          <p>Guess letters one at a time. Wrong guesses add a piece to the drawing — 6 wrong guesses ends the game.</p>
+        </div>
+        <div>
+          <h3>Category hint</h3>
+          <p>A category is shown to help point you in the right direction.</p>
         </div>
         <div>
           <h3>Fully private</h3>
-          <p>Generated entirely in your browser — nothing is sent anywhere.</p>
-        </div>
-        <div>
-          <h3>No limits</h3>
-          <p>Generate as many barcodes as you need, no account required.</p>
+          <p>Everything runs in your browser — no accounts, no tracking.</p>
         </div>
       </div>
 
@@ -117,10 +121,9 @@
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
 <script src="ui.js"></script>
 <script type="module" src="firebase-config.js"></script>
 <script type="module" src="auth.js"></script>
-<script src="barcodegenerator.js"></script>
+<script src="gamehangman.js"></script>
 </body>
 </html>
